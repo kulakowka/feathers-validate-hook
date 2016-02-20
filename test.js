@@ -166,10 +166,34 @@ describe('validateField()', function () {
     ])
   })
 
-  it('should returns a string repeated n times', function () {
+  it('should return a string repeated n times', function () {
     return Promise.all([
       validateField(' ', {repeat: 5}).should.become('     '),
       validateField('*', {repeat: 3}).should.become('***')
+    ])
+  })
+
+  it('should return the new string with all occurrences of ss replaced with newstr', function () {
+    return Promise.all([
+      validateField(' does IT work? ', {replaceAll: [' ', '_']}).should.become('_does_IT_work?_'),
+      validateField('Yes it does!', {replaceAll: [' ', '']}).should.become('Yesitdoes!')
+    ])
+  })
+
+  it('should return the substring denoted by n positive right-most characters', function () {
+    return Promise.all([
+      validateField('My name is JP', {right: -2}).should.become('My'),
+      validateField('Hi', {left: 0}).should.become(''),
+      validateField('My name is JP', {right: 2}).should.become('JP')
+    ])
+  })
+
+  it('should convert the value into a valid url slug', function () {
+    return Promise.all([
+      validateField('Global Thermonuclear Warfare', {slugify: true}).should.become('global-thermonuclear-warfare'),
+      validateField('Crème brûlée', {slugify: true}).should.become('creme-brulee'),
+      validateField('Россия большая страна', {slugify: true}).should.become('rossiya-bolshaya-strana')
+      
     ])
   })
 

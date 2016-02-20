@@ -1,9 +1,11 @@
 'use strict'
 
+var slug = require('slug')
+
 module.exports = {
-  between(value, settigns) {
-    if (Array.isArray(settigns)) return value.between(...settigns)
-    return value.between(settigns)
+  between(value, settings) {
+    if (Array.isArray(settings)) return value.between(...settings)
+    return value.between(settings)
   },
   camelize(value) {
     return value.camelize()
@@ -46,5 +48,17 @@ module.exports = {
   },
   repeat(value, settings) {
     return value.repeat(settings)
-  }
+  },
+  replaceAll(value, settings) {
+    return value.replaceAll(...settings)
+  },
+  right(value, settings) {
+    return value.right(settings)
+  },
+  slugify(value) {
+    return value.setValue(slug(value.s).toLowerCase())
+  },
+
+
+  
 }
