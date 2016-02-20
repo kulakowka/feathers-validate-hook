@@ -283,6 +283,18 @@ describe('validateField()', function () {
     ])
   })
 
+  it('should return the float value, wraps parseFloat.', function () {
+    return Promise.all([
+      validateField('5', {toFloat: true}).should.become(5),
+      validateField('5.3', {toFloat: true}).should.become(5.3),
+      validateField(5.3, {toFloat: true}).should.become(5.3),
+      validateField('-10', {toFloat: true}).should.become(-10),
+      validateField('55.3 adfafaf', {toFloat: true}).should.become(55.3),
+      validateField('afff 44', {toFloat: true}).should.become(NaN),
+      validateField('3.45522222333232', {toFloat: 2}).should.become(3.46),
+    ])
+  })
+
   // template
   // it('should ', function () {
   //   return Promise.all([
