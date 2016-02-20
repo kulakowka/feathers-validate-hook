@@ -52,19 +52,21 @@ const options = {
   stripTags: true || 'p' || ['p', 'b', 'script'],
   template: {name: 'JP', 'date-year': 2013}, // "Hello {{name}}! How are you doing during the year of {{date-year}}?"
   titleCase: true,
-
-  // приведение к нужному типу
-  toBoolean: true,
-  toFloat: true || 2,
-  toInt: true,
-  toInteger: true,
-  toString: true,
   trim: true,
   trimLeft: true,
   trimRight: true,
   truncate: 3,
   underscore: true,
   unescapeHTML: true,
+  
+  // приведение к нужному типу
+  toBoolean: true,
+  toBool: true,
+  toFloat: true || 2,
+  toInt: true,
+  toInteger: true,
+  toString: true,
+  
 
   // 4. Затем мы производим валидацию значения поля по различным признакам
   // по умолчанию никаких валидаций не производится

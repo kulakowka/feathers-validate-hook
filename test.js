@@ -45,7 +45,8 @@ describe('validateField()', function () {
     ])
   })
 
-  // complex transformation test with many options
+  // transformation
+  
   it('should transform with two or more options', function () {
     let options = {
       humanize: true, 
@@ -259,6 +260,54 @@ describe('validateField()', function () {
     ])
   })
 
+  it('should return the string with leading and trailing whitespace removed. Reverts to native trim() if it exists', function () {
+    return Promise.all([
+      validateField('hello ', {trim: true}).should.become('hello'),
+      validateField(' hello ', {trim: true}).should.become('hello'),
+      validateField('\nhello', {trim: true}).should.become('hello'),
+      validateField('\nhello\r\n', {trim: true}).should.become('hello'),
+      validateField('\thello\t', {trim: true}).should.become('hello')
+    ])
+  })
+
+  it('should return the string with leading whitespace removed', function () {
+    return Promise.all([
+      validateField('  How are you?', {trimLeft: true}).should.become('How are you?')
+    ])
+  })
+  
+  it('should return the string with trailing whitespace removed', function () {
+    return Promise.all([
+      validateField('How are you?      ', {trimRight: true}).should.become('How are you?')
+    ])
+  })
+
+  it('should truncates the string, accounting for word placement and character count', function () {
+    return Promise.all([
+      validateField('this is some long text', {truncate: 3}).should.become('...'),
+      validateField('this is some long text', {truncate: 7}).should.become('this is...'),
+      validateField('this is some long text', {truncate: 11}).should.become('this is...'),
+      validateField('this is some long text', {truncate: 12}).should.become('this is some...'),
+      validateField('this is some long text', {truncate: [14, ' read more']}).should.become('this is some read more')
+    ])
+  })
+
+  it('should returns converted camel cased string into a string delimited by underscores', function () {
+    return Promise.all([
+      validateField('dataRate', {underscore: true}).should.become('data_rate'),
+      validateField('CarSpeed', {underscore: true}).should.become('car_speed'),
+      validateField('yesWeCan', {underscore: true}).should.become('yes_we_can')
+    ])
+  })
+
+  it('should returns unescaped string from html value string', function () {
+    return Promise.all([
+      validateField('&lt;div&gt;hi&lt;/div&gt;', {unescapeHTML: true}).should.become('<div>hi</div>')
+    ])
+  })
+  
+  // typecast
+  
   it('should convert a a logical truth string to boolean', function () {
     return Promise.all([
       validateField('true', {toBoolean: true}).should.become(true),
@@ -283,7 +332,7 @@ describe('validateField()', function () {
     ])
   })
 
-  it('should return the float value, wraps parseFloat.', function () {
+  it('should return the float value, wraps parseFloat', function () {
     return Promise.all([
       validateField('5', {toFloat: true}).should.become(5),
       validateField('5.3', {toFloat: true}).should.become(5.3),
@@ -294,6 +343,27 @@ describe('validateField()', function () {
       validateField('3.45522222333232', {toFloat: 2}).should.become(3.46),
     ])
   })
+
+  it('should return the number value in integer form. Wrapper for parseInt(). Can also parse hex values', function () {
+    return Promise.all([
+      validateField('5', {toInteger: true}).should.become(5),
+      validateField('5', {toInteger: true}).should.become(5),
+      validateField('5.3', {toInteger: true}).should.become(5),
+      validateField(5.3, {toInteger: true}).should.become(5),
+      validateField('-10', {toInteger: true}).should.become(-10),
+      validateField('55.3 adfafaf', {toInteger: true}).should.become(55),
+      validateField('afff 44', {toInteger: true}).should.become(NaN),
+      validateField('0xff', {toInteger: 2}).should.become(255)  
+    ])
+  })
+
+  it('should return the string representation of an value string', function () {
+    return Promise.all([
+      validateField(5, {toString: true}).should.become('5')
+    ])
+  })
+
+  
 
   // template
   // it('should ', function () {

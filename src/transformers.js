@@ -82,5 +82,24 @@ module.exports = {
   },
   titleCase(value) {
     return value.titleCase()
-  }
+  },
+  trim(value) {
+    return value.trim()
+  },
+  trimLeft(value) {
+    return value.trimLeft()
+  },
+  trimRight(value) {
+    return value.trimRight()
+  },
+  truncate(value, settings) {
+    if (Array.isArray(settings)) return value.truncate(...settings)
+    return value.truncate(settings)
+  },  
+  underscore(value) {
+    return value.underscore()
+  },
+  unescapeHTML(value) {
+    return value.unescapeHTML()
+  },
 }

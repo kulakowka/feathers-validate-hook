@@ -7,5 +7,12 @@ module.exports = {
   toFloat(value, settings) {
     if (typeof settings === 'number') return value.toFloat(settings)
     return value.toFloat()
-  }
+  },
+  toInteger(value) {
+    return value.toInt()
+  },
+  toString(value) {
+    return value.toString()
+  },
 }
+
