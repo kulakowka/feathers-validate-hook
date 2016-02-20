@@ -77,12 +77,10 @@ module.exports = {
     if (typeof settings === 'string') return value.stripTags(settings)
     return value.stripTags()
   },
-  
-
-
-  
-  
-
-
-  
+  template(value, settings) {
+    return value.template(settings)
+  },
+  titleCase(value) {
+    return value.titleCase()
+  }
 }

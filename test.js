@@ -239,6 +239,59 @@ describe('validateField()', function () {
     ])
   })
 
+  it('should takes a string and interpolates the values. Defaults to {{ and }} for Mustache compatible templates', function () {
+    var str = "Hello {{name}}! How are you doing during the year of {{date-year}}?"
+    var template = {name: 'JP', 'date-year': 2013}
+    return Promise.all([
+      validateField(str, {template}).should.become('Hello JP! How are you doing during the year of 2013?')
+    ])
+  })
+
+  it('should returns a string with the first letter of each word uppercased, including hyphenated words', function () {
+    return Promise.all([
+      validateField('Like ice in the sunshine', {titleCase: true}).should.become('Like Ice In The Sunshine'),
+      validateField('data_rate', {titleCase: true}).should.become('Data_Rate'),
+      validateField('background-color', {titleCase: true}).should.become('Background-Color'),
+      validateField('-moz-something', {titleCase: true}).should.become('-Moz-Something'),
+      validateField('_car_speed_', {titleCase: true}).should.become('_Car_Speed_'),
+      validateField('yes_we_can', {titleCase: true}).should.become('Yes_We_Can'),
+      validateField('   capitalize dash-CamelCase_underscore trim  ', {humanize: true, titleCase: true}).should.become('Capitalize Dash Camel Case Underscore Trim')      
+    ])
+  })
+
+  it('should convert a a logical truth string to boolean', function () {
+    return Promise.all([
+      validateField('true', {toBoolean: true}).should.become(true),
+      validateField('false', {toBoolean: true}).should.become(false),
+      validateField('hello', {toBoolean: true}).should.become(false),
+      validateField(true, {toBoolean: true}).should.become(true),
+      validateField('on', {toBoolean: true}).should.become(true),
+      validateField('yes', {toBoolean: true}).should.become(true),
+      validateField('TRUE', {toBoolean: true}).should.become(true),
+      validateField('TrUe', {toBoolean: true}).should.become(true),
+      validateField('YES', {toBoolean: true}).should.become(true),
+      validateField('ON', {toBoolean: true}).should.become(true),
+      validateField('', {toBoolean: true}).should.become(false),
+      validateField(undefined, {toBoolean: true}).should.become(false),
+      validateField('undefined', {toBoolean: true}).should.become(false),
+      validateField(null, {toBoolean: true}).should.become(false),
+      validateField(false, {toBoolean: true}).should.become(false),
+      validateField({}, {toBoolean: true}).should.become(false),
+      validateField(1, {toBoolean: true}).should.become(true),
+      validateField(-1, {toBoolean: true}).should.become(false),
+      validateField(0, {toBoolean: true}).should.become(false)
+    ])
+  })
+
+  // template
+  // it('should ', function () {
+  //   return Promise.all([
+  //     validateField('test', {titleCase: true}).should.become('test'),
+  //   ])
+  // })
+
+
+
 
 
 

@@ -46,13 +46,15 @@ const options = {
   right: 2,  // -2
   slugify: true,
   strip: [' ', '_', '-'],
-  stripLeft: true || 'a-z' || 'w.' || ['a-z', 'w.'],
+  stripLeft: true || 'a-z' || 'w.',
   stripRight: true || 'a-z' || 'w.' || ['a-z', 'w.'],
-  stripPunctuation: true,
+  stripPunctuation: true,  // only for latin charters
   stripTags: true || 'p' || ['p', 'b', 'script'],
   template: {name: 'JP', 'date-year': 2013}, // "Hello {{name}}! How are you doing during the year of {{date-year}}?"
-  times: 5,
   titleCase: true,
+
+  // приведение к нужному типу
+  toBoolean: true,
   toFloat: true || 2,
   toInt: true,
   toInteger: true,
