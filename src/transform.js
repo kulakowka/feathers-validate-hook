@@ -5,17 +5,15 @@ const transformers = require('./transformers')
 
 module.exports = function transform(value, options) {
   
-  let _value = null
+  let _value = S(value)
 
   for (let option in options) {
-    if (options.hasOwnProperty(option)) {
+    if (transformers.hasOwnProperty(option)) {
       let transformer = transformers[option]
-      if (transformer) {
-        if (!_value) _value = S(value)
-        _value = transformers[option](_value, options[option])
-      }
+
+      _value = transformers[option](_value, options[option])
     }
   }
 
-  return _value
+  return _value.s
 }

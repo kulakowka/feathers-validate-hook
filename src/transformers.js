@@ -43,5 +43,8 @@ module.exports = {
   },
   left(value, settings) {
     return value.left(settings)
+  },
+  repeat(value, settings) {
+    return value.repeat(settings)
   }
 }

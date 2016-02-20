@@ -28,19 +28,19 @@ describe('validateField()', function () {
 
   it('should return forced value from options when the field value is not present', function () {
     return Promise.all([
-      validateField('', {value: 'value1'}).should.become('value1'),
-      validateField('   ', {value: 'value2'}).should.become('value2'),
-      validateField(undefined, {value: 'value3'}).should.become('value3'),
-      validateField('test', {value: 'value4'}).should.become('value4')
+      validateField('', {setValue: 'value1'}).should.become('value1'),
+      validateField('   ', {setValue: 'value2'}).should.become('value2'),
+      validateField(undefined, {setValue: 'value3'}).should.become('value3'),
+      validateField('test', {setValue: 'value4'}).should.become('value4')
     ])
   })
 
   it('should return modified value from function in option.value, when the field value is not present', function () {
     return Promise.all([
-      validateField('test', {value: modifySync}).should.become('modified sync test'),
-      validateField('test', {value: modifyAsync}).should.become('modified async test'),
-      validateField('test', {value: modifyUndefined}).should.become('modified test'),
-      validateField(undefined, {value: modifyUndefined}).should.become('modified undefined')
+      validateField('test', {setValue: modifySync}).should.become('modified sync test'),
+      validateField('test', {setValue: modifyAsync}).should.become('modified async test'),
+      validateField('test', {setValue: modifyUndefined}).should.become('modified test'),
+      validateField(undefined, {setValue: modifyUndefined}).should.become('modified undefined')
     ])
   })
 
@@ -163,6 +163,13 @@ describe('validateField()', function () {
       validateField('My name is JP', {left: 2}).should.become('My'),
       validateField('Hi', {left: 0}).should.become(''),
       validateField('My name is JP', {left: -2}).should.become('JP')
+    ])
+  })
+
+  it('should returns a string repeated n times', function () {
+    return Promise.all([
+      validateField(' ', {repeat: 5}).should.become('     '),
+      validateField('*', {repeat: 3}).should.become('***')
     ])
   })
 

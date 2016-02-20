@@ -19,9 +19,9 @@ const data = {
 const options = {
   // 1. В самом начале - если значение не приехало или приехала пустая строка
   // и при этом параметр value указан - то мы заменяем эначения поля и переходим к следующему
-  value: 'Force value',
-  value: modifySync,
-  value: modifyAsync,
+  setValue: 'Force value',
+  setValue: modifySync,
+  setValue: modifyAsync,
 
   // 3. Затем мы проводим модификации значения поля к нужному виду
   // по умолчанию никаких модификаций не проводится
