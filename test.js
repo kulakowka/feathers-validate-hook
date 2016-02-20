@@ -1,6 +1,6 @@
 /* global describe, it */
 
-// 'use strict'
+'use strict'
 
 var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
@@ -44,7 +44,17 @@ describe('validateField()', function () {
     ])
   })
 
-  // test modifying to the specified format
+  // complex transformation test with many options
+  it('should transform with two or more options', function () {
+    let options = {
+      humanize: true, 
+      collapseWhitespace: true,
+      camelize: true
+    }
+    return Promise.all([
+      validateField('the_humanize           string_method', options).should.become('TheHumanizeStringMethod'),
+    ])
+  })
   
   it('should extracts a value string between left and right strings', function () {
     return Promise.all([
@@ -155,5 +165,7 @@ describe('validateField()', function () {
       validateField('My name is JP', {left: -2}).should.become('JP')
     ])
   })
+
+  
 
 })
