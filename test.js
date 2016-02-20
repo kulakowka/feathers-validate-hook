@@ -46,13 +46,6 @@ describe('validateField()', function () {
 
   // test modifying to the specified format
   
-  // complex test
-  it('should transform with two or more options', function () {
-    return Promise.all([
-      validateField('the_humanize           string_method', {humanize: true, collapseWhitespace: true}).should.become('The humanize string method'),
-    ])
-  })
-  
   it('should extracts a value string between left and right strings', function () {
     return Promise.all([
       validateField('<a>foo</a>', {between: ['<a>','</a>']}).should.become('foo'),
@@ -162,15 +155,5 @@ describe('validateField()', function () {
       validateField('My name is JP', {left: -2}).should.become('JP')
     ])
   })
-
-  
-  
-
-  
-
-  
-
-
-
 
 })
