@@ -58,6 +58,30 @@ module.exports = {
   slugify(value) {
     return value.setValue(slug(value.s).toLowerCase())
   },
+  strip(value, settings) {
+    return value.strip(...settings)
+  },
+  stripLeft(value, settings) {
+    if (typeof settings !== 'string' && settings) return value.stripLeft()
+    return value.stripLeft(settings)
+  },
+  stripRight(value, settings) {
+    if (typeof settings !== 'string' && settings) return value.stripRight()
+    return value.stripRight(settings)
+  },
+  stripPunctuation(value) {
+    return value.stripPunctuation()
+  },
+  stripTags(value, settings) {
+    if (Array.isArray(settings)) return value.stripTags(...settings)
+    if (typeof settings === 'string') return value.stripTags(settings)
+    return value.stripTags()
+  },
+  
+
+
+  
+  
 
 
   

@@ -10,8 +10,12 @@ module.exports = function transform(value, options) {
   for (let option in options) {
     if (transformers.hasOwnProperty(option)) {
       let transformer = transformers[option]
+      let settings = options[option]
 
-      _value = transformers[option](_value, options[option])
+      if (!(typeof settings === 'boolean' && settings === false)) {
+        _value = transformers[option](_value, settings)
+      }
+      
     }
   }
 

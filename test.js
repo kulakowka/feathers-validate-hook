@@ -31,7 +31,8 @@ describe('validateField()', function () {
       validateField('', {setValue: 'value1'}).should.become('value1'),
       validateField('   ', {setValue: 'value2'}).should.become('value2'),
       validateField(undefined, {setValue: 'value3'}).should.become('value3'),
-      validateField('test', {setValue: 'value4'}).should.become('value4')
+      validateField('test', {setValue: 'value4'}).should.become('value4'),
+      validateField('test', {setValue: false}).should.become(false)
     ])
   })
 
@@ -49,7 +50,8 @@ describe('validateField()', function () {
     let options = {
       humanize: true, 
       collapseWhitespace: true,
-      camelize: true
+      camelize: true,
+      capitalize: false
     }
     return Promise.all([
       validateField('the_humanize           string_method', options).should.become('TheHumanizeStringMethod'),
@@ -88,7 +90,8 @@ describe('validateField()', function () {
   it('should removes prefix from start of value string', function () {
     return Promise.all([
       validateField('foobar', {chompLeft: 'foo'}).should.become('bar'),
-      validateField('foobar', {chompLeft: 'bar'}).should.become('foobar')
+      validateField('foobar', {chompLeft: 'bar'}).should.become('foobar'),
+      validateField('foobar', {chompLeft: false}).should.become('foobar')
     ])
   })
 
@@ -110,6 +113,7 @@ describe('validateField()', function () {
       validateField('dataRate', {dasherize: true}).should.become('data-rate'),
       validateField('CarSpeed', {dasherize: true}).should.become('-car-speed'),
       validateField('yesWeCan', {dasherize: true}).should.become('yes-we-can'),
+      validateField('yesWeCan', {dasherize: false}).should.become('yesWeCan'),
       validateField('backgroundColor', {dasherize: true}).should.become('background-color')
     ])
   })
@@ -162,6 +166,7 @@ describe('validateField()', function () {
     return Promise.all([
       validateField('My name is JP', {left: 2}).should.become('My'),
       validateField('Hi', {left: 0}).should.become(''),
+      validateField('Hi', {left: false}).should.become('Hi'),
       validateField('My name is JP', {left: -2}).should.become('JP')
     ])
   })
@@ -193,9 +198,49 @@ describe('validateField()', function () {
       validateField('Global Thermonuclear Warfare', {slugify: true}).should.become('global-thermonuclear-warfare'),
       validateField('Crème brûlée', {slugify: true}).should.become('creme-brulee'),
       validateField('Россия большая страна', {slugify: true}).should.become('rossiya-bolshaya-strana')
-      
     ])
   })
+
+  it('should return a new string with all occurrences of [string1],[string2],... removed', function () {
+    return Promise.all([
+      validateField(' 1 2 3--__--4 5 6-7__8__9--0', {strip: [' ', '_', '-']}).should.become('1234567890'),
+      validateField('can words also be stripped out?', {strip: ['words', 'also', 'be']}).should.become('can    stripped out?')      
+    ])
+  })
+
+  it('should returns a new string in which all chars have been stripped from the beginning of the string (default whitespace characters)', function () {
+    return Promise.all([
+      validateField('  hello ', {stripLeft: true}).should.become('hello '),
+      validateField('not transform me', {stripLeft: false}).should.become('not transform me'),
+      validateField('abcz', {stripLeft: 'a-z'}).should.become('bcz'),
+      validateField('www.example.com', {stripLeft: 'w.'}).should.become('example.com')
+    ])
+  })
+
+  it('should returns a new string in which all chars have been stripped from the end of the string (default whitespace characters)', function () {
+    return Promise.all([
+      validateField('  hello ', {stripRight: true}).should.become('  hello'),
+      validateField('not transform me', {stripRight: false}).should.become('not transform me'),
+      validateField('abcz', {stripRight: 'a-z'}).should.become('abc')
+    ])
+  })
+
+  it('should strip all of the punctuation', function () {
+    return Promise.all([
+      validateField('My, st[ring] *full* of %punct)', {stripPunctuation: true}).should.become('My string full of punct')
+    ])
+  })
+
+  it('should strip all of the HTML tags or tags specified by the parameters', function () {
+    return Promise.all([
+      validateField('<p>just <b>some</b> text</p>', {stripTags: true}).should.become('just some text'),
+      validateField('<p>just <b>some</b> text</p>', {stripTags: 'b'}).should.become('<p>just some text</p>'),
+      validateField('<p>just <b>some</b> <i>text</i> with <img src="http://.."/></p>', {stripTags: ['b', 'img']}).should.become('<p>just some <i>text</i> with </p>'),
+    ])
+  })
+
+
+
 
   
 
