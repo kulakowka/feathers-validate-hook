@@ -46,6 +46,13 @@ describe('validateField()', function () {
 
   // test modifying to the specified format
   
+  // complex test
+  it('should transform with two or more options', function () {
+    return Promise.all([
+      validateField('the_humanize           string_method', {humanize: true, collapseWhitespace: true}).should.become('The humanize string method'),
+    ])
+  })
+  
   it('should extracts a value string between left and right strings', function () {
     return Promise.all([
       validateField('<a>foo</a>', {between: ['<a>','</a>']}).should.become('foo'),
@@ -116,6 +123,48 @@ describe('validateField()', function () {
       validateField('<div>hi</div>', {escapeHTML: true}).should.become('&lt;div&gt;hi&lt;/div&gt;')
     ])
   })
+
+  it('should ensures value string starts with prefix', function () {
+    return Promise.all([
+      validateField('subdir', {ensureLeft: '/'}).should.become('/subdir'),
+      validateField('/subdir', {ensureLeft: '/'}).should.become('/subdir')
+    ])
+  })
+
+  it('should ensures value string ends with suffix', function () {
+    return Promise.all([
+      validateField('dir', {ensureRight: '/'}).should.become('dir/'),
+      validateField('dir/', {ensureRight: '/'}).should.become('dir/')
+    ])
+  })
+
+  it('should transform the value string into a human friendly form', function () {
+    return Promise.all([
+      validateField('the_humanize_string_method', {humanize: true}).should.become('The humanize string method'),
+      validateField('ThehumanizeStringMethod', {humanize: true}).should.become('Thehumanize string method'),
+      validateField('the humanize string method', {humanize: true}).should.become('The humanize string method'),
+      validateField('the humanize_id string method_id', {humanize: true}).should.become('The humanize id string method'),
+      validateField('the  humanize string method  ', {humanize: true}).should.become('The humanize string method'),
+      validateField('   capitalize dash-CamelCase_underscore trim  ', {humanize: true}).should.become('Capitalize dash camel case underscore trim')
+    ])
+  })
+
+  it('should remove accents from Latin characters', function () {
+    return Promise.all([
+      validateField('crème brûlée', {latinise: true}).should.become('creme brulee')
+    ])
+  })
+
+  it('should return the substring denoted by n positive left-most characters', function () {
+    return Promise.all([
+      validateField('My name is JP', {left: 2}).should.become('My'),
+      validateField('Hi', {left: 0}).should.become(''),
+      validateField('My name is JP', {left: -2}).should.become('JP')
+    ])
+  })
+
+  
+  
 
   
 

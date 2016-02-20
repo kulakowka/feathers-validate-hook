@@ -1,13 +1,14 @@
 'use strict'
 
-var S = require('string')
+const S = require('string')
+const transform = require('./transform')
 
 module.exports = function validateField (value, options) {
   // default options
   Object.assign(options, {})
 
   // replace field value
-  if (options.value) {
+  if (is(options.value)) {
     if (options.value instanceof Function) {
       let result = options.value(value)      
       if (result instanceof Promise) return result
@@ -16,62 +17,35 @@ module.exports = function validateField (value, options) {
     return Promise.resolve(options.value)
   }
 
-  // modifying to the specified format
-  if (options.between) {
-    let between = options.between
-    if (Array.isArray(between)) {
-      return Promise.resolve(S(value).between(...between).s)  
-    }
-    return Promise.resolve(S(value).between(between).s)
-  }
-
-  if (options.camelize) {
-    return Promise.resolve(S(value).camelize().s)
-  }
-
-  if (options.capitalize) {
-    return Promise.resolve(S(value).capitalize().s)
-  }
-
-  if (options.chompLeft) {
-    return Promise.resolve(S(value).chompLeft(options.chompLeft).s)
-  }
-
-  if (options.chompRight) {
-    return Promise.resolve(S(value).chompRight(options.chompRight).s)
-  }
-
-  if (options.collapseWhitespace) {
-    return Promise.resolve(S(value).collapseWhitespace().s)
-  }
-
-  if (options.dasherize) {
-    return Promise.resolve(S(value).dasherize().s)
-  }
-
-  if (options.decodeHTMLEntities) {
-    return Promise.resolve(S(value).decodeHTMLEntities().s)
-  }
-
-  if (options.escapeHTML) {
-    return Promise.resolve(S(value).escapeHTML().s)
-  }
-
-  if (options.ensureLeft) {
-    return Promise.resolve(S(value).ensureLeft(options.ensureLeft).s)
-  }
-
-
-
+  // transform value to the specified format
+  let _value = transform(value, options)
   
+  return Promise.resolve(_value.s)
+  
+}
 
-  
 
-  
-  
-  
-
-  
-
-  return Promise.resolve(value)
+/*
+is('true')      true
+is('false')     false
+is('hello')     false
+is(true)        true
+is('on')        true
+is('yes')       true
+is('TRUE')      true
+is('TrUe')      true
+is('YES')       true
+is('ON')        true
+is('')          false
+is(undefined)   false
+is('undefined') false
+is(null)        false
+is(false)       false
+is({})          false
+is(1)           true
+is(-1)          false
+is(0)           false
+ */
+function is (value) {
+  return S(value).toBoolean()
 }
