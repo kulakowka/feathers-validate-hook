@@ -1,11 +1,29 @@
 {
   "name": "feathers-validate-hook",
-  "version": "0.0.4",
+  "version": "0.0.5",
+  "homepage": "http://feathersjs.com",
   "description": "Feathers hook for validate json-schema with is-my-json-valid",
-  "main": "lib/validate/index.js",
-  "scripts": {
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kulakowka/feathers-validate-hook.git"
   },
-  "author": "kulakowka",
+  "keywords": [
+    "feathers",
+    "validate",
+    "validation"
+  ],
+  "main": "lib/validate/index.js",
+  "author": "Feathers <hello@feathersjs.com> (http://feathersjs.com)",
+  "contributors": [
+    "Anton Kulakov <kulakowka@gmail.com> (http://kulakowka.com)"
+  ],
+  "directories": {
+    "lib": "lib"
+  },
+  "engines": {
+    "node": ">= 5.6.0",
+    "npm": ">= 3.6.0"
+  },
   "license": "MIT",
   "dependencies": {
     "feathers-errors": "^2.0.1",
