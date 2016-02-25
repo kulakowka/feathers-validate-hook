@@ -22,15 +22,9 @@ const schema = {
   }
 }
 
-// Default options for is-my-json-valid validator
-const options = {
-  verbose: true,
-  greedy: true
-}
-
 app.service('/messages').before({
   create: [ 
-    validateHook(schema, options)
+    validateHook(schema)
   ]
 })
 ```
