@@ -2,12 +2,12 @@
 
 const S = require('string')
 const transform = require('./transform')
-
+const validate = require('./validate')
 module.exports = function validateField (value, options) {
   // default options
   Object.assign(options, {})
 
-  // 1. START replace field value
+  // 1. START setValue
   if (typeof options.setValue !== 'undefined') {
     if (options.setValue instanceof Function) {
       let result = options.setValue(value)      
@@ -18,10 +18,19 @@ module.exports = function validateField (value, options) {
     // 1. THE END
   }
 
-  // 2. START transform value to the specified format
+  // 2. START transforms
   let _value = transform(value, options)
   
-  return Promise.resolve(_value)
+  console.log('_value', _value)
+  // return Promise.resolve(_value)
   // 2. THE END
+  
+  // 3. START validations
+  _value = validate(_value, options)
+  
+  return Promise.resolve(_value)
+  // 3. THE END
+  
+  
   
 }
