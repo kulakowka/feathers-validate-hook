@@ -1,11 +1,11 @@
 ## feathers-validate-hook
 
-This is experiment. NOT published to NPM. **Work in progress!**
+This is experiment. **Work in progress!**
 
 Feathers hook for validate json-schema with [is-my-json-valid](https://www.npmjs.com/package/is-my-json-valid)
 
 ```javascript
-const validateHook = require('feathers-validate-hook') // Now it is NOT published to NPM.
+const validateHook = require('feathers-validate-hook')
 
 // Define schema 
 const schema = {
