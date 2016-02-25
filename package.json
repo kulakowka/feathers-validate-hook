@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "feathers-errors": "^2.0.1",
+    "feathers-errors": "^1.2.3",
     "is-my-json-valid": "^2.13.1",
     "slug": "^0.9.1",
     "string": "^3.3.1"
