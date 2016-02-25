@@ -1,13 +1,12 @@
 {
   "name": "feathers-validate-hook",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Feathers hook for validate json-schema with is-my-json-valid",
   "main": "lib/validate/index.js",
   "scripts": {
-    "test": "mocha tests/"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "kulakowka",
+  "license": "MIT",
   "dependencies": {
     "feathers-errors": "^2.0.1",
     "is-my-json-valid": "^2.13.1"
