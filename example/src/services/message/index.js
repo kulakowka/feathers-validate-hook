@@ -8,7 +8,11 @@ class Service {
   }
 
   find(params) {
-    return Promise.resolve([]);
+    return Promise.resolve([
+      {id: 1, text: 'A message with ID: 1!'},
+      {id: 2, text: 'A message with ID: 2!'},
+      {id: 3, text: 'A message with ID: 3!'}
+    ]);
   }
 
   get(id, params) {

@@ -1,7 +1,7 @@
 'use strict';
 
 const globalHooks = require('../../../hooks');
-const validateHook = require('../../../../../lib/validate')
+const addVirtualAttribute = require('../../../../../lib/hook')
 
 const schema = {
   text: {
@@ -14,9 +14,7 @@ exports.before = {
   all: [],
   find: [],
   get: [],
-  create: [
-    validateHook(schema)
-  ],
+  create: [],
   update: [],
   patch: [],
   remove: []
@@ -24,8 +22,16 @@ exports.before = {
 
 exports.after = {
   all: [],
-  find: [],
-  get: [],
+  find: [
+    addVirtualAttribute({
+      webUrl: (message) => `http://example.com/messages/${message.id}`
+    })
+  ],
+  get: [
+    addVirtualAttribute({
+      webUrl: (message) => `http://example.com/messages/${message.id}`
+    })
+  ],
   create: [],
   update: [],
   patch: [],

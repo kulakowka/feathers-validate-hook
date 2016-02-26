@@ -1,57 +1,73 @@
-## feathers-validate-hook
+## feathers-virtual-attribute-hook
 
-[![npm package](https://nodei.co/npm/feathers-validate-hook.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/feathers-validate-hook/)
+[![npm package](https://nodei.co/npm/feathers-virtual-attribute-hook.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/feathers-virtual-attribute-hook/)
 
-[![NPM version](http://img.shields.io/npm/v/feathers-validate-hook.svg)](https://www.npmjs.org/package/feathers-validate-hook)
-[![Dependency Status](https://david-dm.org/kulakowka/feathers-validate-hook.svg)](https://david-dm.org/kulakowka/feathers-validate-hook)
+[![NPM version](http://img.shields.io/npm/v/feathers-virtual-attribute-hook.svg)](https://www.npmjs.org/package/feathers-virtual-attribute-hook)
+[![Dependency Status](https://david-dm.org/kulakowka/feathers-virtual-attribute-hook.svg)](https://david-dm.org/kulakowka/feathers-virtual-attribute-hook)
 
 
 This is experiment. **Work in progress!**
 
-Feathers hook for validate json-schema with [is-my-json-valid](https://www.npmjs.com/package/is-my-json-valid)
+Feathers hook for add virtual attributes to your service response.
 
 ```javascript
-const validateHook = require('feathers-validate-hook')
+const validateHook = require('feathers-virtual-attribute-hook')
 
-// Define schema 
-const schema = {
-  // Required attribute 'text' with type 'string'
-  text: {
-    required: true,
-    type: 'string'
-  }
-}
-
-app.service('/messages').before({
-  create: [ 
-    validateHook(schema)
+app.service('/messages').after({
+  find: [ 
+    addVirtualAttribute({
+      webUrl: (message) => `http://example.com/messages/${message.id}`
+    })
+  ],
+  get: [ 
+    addVirtualAttribute({
+      webUrl: (message) => `http://example.com/messages/${message.id}`
+    })
   ]
 })
 ```
 
 ## Example
 
-Look [example folder](https://github.com/kulakowka/feathers-validate-hook/tree/master/example) for more information.
+Look [example folder](https://github.com/kulakowka/feathers-virtual-attribute-hook/tree/master/example) for more information.
 
 Test request:
 ```
-curl -H "Accept: application/json" -X POST http://localhost:3030/messages
+curl -H "Accept: application/json" http://localhost:3030/messages
+```
+
+Server response example:
+```
+[
+  {
+    "id": 1,
+    "text": "A message with ID: 1!",
+    "webUrl": "http://example.com/messages/1"
+  },
+  {
+    "id": 2,
+    "text": "A message with ID: 2!",
+    "webUrl": "http://example.com/messages/2"
+  },
+  {
+    "id": 3,
+    "text": "A message with ID: 3!",
+    "webUrl": "http://example.com/messages/3"
+  }
+]
+```
+
+
+Test request:
+```
+curl -H "Accept: application/json" http://localhost:3030/messages/1
 ```
 
 Server response example:
 ```
 {
-  "name": "BadRequest",
-  "message": "Validation failed",
-  "code": 400,
-  "className": "bad-request",
-  "data": {},
-  "errors": [
-    {
-      "field": "data.text",
-      "message": "is required",
-      "type": "string"
-    }
-  ]
+  "id": "1",
+  "text": "A new message with ID: 1!",
+  "webUrl": "http://example.com/messages/1"
 }
 ```
