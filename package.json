@@ -1,6 +1,6 @@
 {
   "name": "feathers-validate-hook",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "homepage": "http://feathersjs.com",
   "description": "Feathers hook for validate json-schema with is-my-json-valid",
   "repository": {
