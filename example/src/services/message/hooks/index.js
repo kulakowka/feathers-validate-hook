@@ -4,9 +4,13 @@ const globalHooks = require('../../../hooks');
 const validateHook = require('../../../../../lib/validate')
 
 const schema = {
-  text: {
-    required: true,
-    type: 'string'
+  required: true,
+  type: 'object',
+  properties: {
+    text: {
+      required: true,
+      type: 'string'
+    }
   }
 }
 
