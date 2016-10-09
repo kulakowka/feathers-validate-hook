@@ -15,10 +15,14 @@ const validateHook = require('feathers-validate-hook')
 
 // Define schema 
 const schema = {
-  // Required attribute 'text' with type 'string'
-  text: {
-    required: true,
-    type: 'string'
+  required: true,
+  type: 'object',
+  properties: {
+    // Required attribute 'text' with type 'string'
+    text: {
+      required: true,
+      type: 'string'
+    }
   }
 }
 
